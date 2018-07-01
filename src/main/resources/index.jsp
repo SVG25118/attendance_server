@@ -1,16 +1,104 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ page import="server.*" %>  
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Sup kent</title>
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-		crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>ENGG1500 Demo Server</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
+
 <body>
-	<h1>Hello World</h1>	
+    
+<% 
+	String group = request.getParameter("group");
+	String action = request.getParameter("action");
+	
+	// Validate that the group parameter is sane
+	if (!DataStore.getGroups().contains(group))
+	{
+		// Bad group provided, so pretend none was provided.
+		group = null;	
+	}
+	
+	// Check if this is a reset request.
+	if ("reset".equals(action))
+	{
+		DataStore.reset(group);
+		response.sendRedirect("index.jsp?action=query&group="+ group);
+	}
+	// Check if this is a query request
+	else if ("query".equals(action) && group != null)
+	{
+%>
+<div class = "page-header">
+<h1>Check-in listing: <%=group %></h1>
+</div>
+
+<table class="table">
+<thead>
+<tr>
+<th>Uid</th><th>Key</th><th>Timestamp</th>
+</tr>
+</thead>
+<tbody>
+<%
+	for (Checkin checkin : DataStore.getDevices(group).values())
+	{
+        %>
+        	<tr>
+        	<td><%=checkin.getUid() %></td>
+        	<td><%=checkin.getKey() %></td>
+        	<td><%=checkin.getTime().getTime() %></td>
+        	</tr>
+        <% 
+	}
+	
+%>
+</tbody>
+</table>
+<p>
+<a class="btn btn-sm btn-default" href="index.jsp?group=<%=group %>&action=reset">RESET CHECKINS</a>
+<a class="btn btn-sm btn-default" href="index.jsp">HOME</a>
+
+</p>
+<%
+	}
+	// Otherwise it is an index page request
+	else
+	{
+%>
+<div class = "page-header">
+<h1>ENGG1500 Demo Server</h1>
+</div>
+<p>
+<ul>
+<% 
+	for (String g : DataStore.getGroups())
+	{
+	%>
+		<li><a href="index.jsp?action=query&group=<%=g%>"><%=g %></a></li>
+	<%
+	}
+%>
+</ul>
+</p>
+
+<% 
+}
+%>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>
