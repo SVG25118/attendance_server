@@ -102,5 +102,6 @@ public class DataStore {
 		groups.put("GROUP6", new HashMap<String, Checkin>());
 		groups.put("GROUP7", new HashMap<String, Checkin>());
 		groups.put("GROUP8", new HashMap<String, Checkin>());
+		groups.put("SAVAGE", new HashMap<String, Checkin>());
 	}
 }
