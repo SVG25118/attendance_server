@@ -79,7 +79,11 @@ public class API extends HttpServlet {
 			{
 				try
 				{
-					apiResponse.addResponse(DataStore.getDeviceList(group), "SUCCESS");
+					if(uid != null) {
+						apiResponse.addResponse(DataStore.getKey(group, uid), "SUCCESS");
+					} else {
+						apiResponse.addResponse(DataStore.getDeviceList(group), "SUCCESS");
+					}
 				}
 				catch (Exception e)
 				{

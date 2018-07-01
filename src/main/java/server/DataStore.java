@@ -54,6 +54,13 @@ public class DataStore {
 		devices.put(checkin.getUid(), checkin);
 	}
 	
+	public static String getKey(String group, String uid) {
+		if (groups == null)
+			init();
+		
+		return groups.get(group).get(uid).getKey();
+	}
+	
 	public static HashMap<String,Checkin> getDevices(String group)
 	{
 		if (groups == null)
