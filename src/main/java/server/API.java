@@ -35,10 +35,10 @@ public class API extends HttpServlet {
 			apiResponse.addResponse("Command is a mandatory parameter.", "ERROR");
 		}
 		
-		if (group == null)
-		{
-			apiResponse.addResponse("Group is a mandatory parameter.", "ERROR");
-		}
+//		if (group == null)
+//		{
+//			apiResponse.addResponse("Group is a mandatory parameter.", "ERROR");
+//		}
 		
 		// Execute command
 		if (!apiResponse.hasError())
