@@ -1,5 +1,6 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class Course {
 		this.location = "UoN";
 		this.time = Calendar.getInstance();
 		this.description = "Default description";
+		this.questions = new ArrayList<String>();
+		this.students = new ArrayList<Checkin>();
 	}
 	public Course(String name, String location, String description) {
 		super();
@@ -24,6 +27,8 @@ public class Course {
 		this.location = location;
 		this.time = Calendar.getInstance();
 		this.description = description;
+		this.questions = new ArrayList<String>();
+		this.students = new ArrayList<Checkin>();
 	}
 	public String getName() {
 		return name;
