@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 public class DataStore {
-//	private static HashMap<String, HashMap<String, Checkin>> courses = null;
 	private static HashMap<String, Course> courses = null;
 
 	public static void remove(String course, String uid)
@@ -14,7 +13,7 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		List<Checkin> students = courses.get(course).getStudents();
+		HashMap<String,Checkin> students = courses.get(course).getStudents();
 		
 		if (students == null)
 		{
@@ -30,14 +29,14 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		List<Checkin> students = courses.get(course).getStudents();
+		HashMap<String,Checkin> students = courses.get(course).getStudents();
 		
 		if (students == null)
 		{
 			throw new Exception("Course not found.");
 		}
 		
-		return students.contains(uid);
+		return students.containsKey(uid);
 	}
 	
 	public static void checkin(String course, Checkin checkin)
@@ -46,13 +45,13 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		List<Checkin> students = courses.get(course).getStudents();
+		HashMap<String,Checkin> students = courses.get(course).getStudents();
 		
 		if (students == null) {
 			throw new Exception("Course not found.");
 		}
 		
-		students.add(checkin);
+		students.put(checkin.getUid(),checkin);
 	}
 	
 	public static void addCourse(String course) throws Exception {
@@ -76,7 +75,7 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		return courses.get(course).getStudents().get(courses.get(course).getStudents().indexOf(uid)).getKey();
+		return courses.get(course).getStudents().get(uid).getKey();
 //		return courses.get(course).get(uid).getKey();
 	}
 	

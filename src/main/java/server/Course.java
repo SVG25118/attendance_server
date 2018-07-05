@@ -2,6 +2,7 @@ package server;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class Course {
@@ -10,7 +11,7 @@ public class Course {
 	private Calendar time = null;
 	private String description = null;
 	private List<String> questions;
-	private List<Checkin> students;
+	private HashMap<String,Checkin> students;
 	
 	public Course(String name) {
 		super();
@@ -19,7 +20,7 @@ public class Course {
 		this.time = Calendar.getInstance();
 		this.description = "Default description";
 		this.questions = new ArrayList<String>();
-		this.students = new ArrayList<Checkin>();
+		this.students = new HashMap<String,Checkin>();
 	}
 	public Course(String name, String location, String description) {
 		super();
@@ -28,7 +29,7 @@ public class Course {
 		this.time = Calendar.getInstance();
 		this.description = description;
 		this.questions = new ArrayList<String>();
-		this.students = new ArrayList<Checkin>();
+		this.students = new HashMap<String,Checkin>();
 	}
 	public String getName() {
 		return name;
@@ -63,14 +64,14 @@ public class Course {
 	public void addQuestion(String question) {
 		this.questions.add(question);
 	}
-	public List<Checkin> getStudents() {
+	public HashMap<String,Checkin> getStudents() {
 		return students;
 	}
-	public void setStudents(List<Checkin> students) {
+	public void setStudents(HashMap<String,Checkin> students) {
 		this.students = students;
 	}
 	public void addStudent(Checkin student) {
-		this.students.add(student);
+		this.students.put(student.getKey(),student);
 	}
 
 }
