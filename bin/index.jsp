@@ -20,28 +20,28 @@
 <body>
     
 <% 
-	String group = request.getParameter("group");
+	String course = request.getParameter("course");
 	String action = request.getParameter("action");
 	
 	// Validate that the group parameter is sane
-	if (!DataStore.getGroups().contains(group))
+	if (!DataStore.getCourses().contains(course))
 	{
 		// Bad group provided, so pretend none was provided.
-		group = null;	
+		course = null;	
 	}
 	
 	// Check if this is a reset request.
 	if ("reset".equals(action))
 	{
-		DataStore.reset(group);
-		response.sendRedirect("index.jsp?action=query&group="+ group);
+		DataStore.reset(course);
+		response.sendRedirect("index.jsp?action=query&course="+ course);
 	}
 	// Check if this is a query request
-	else if ("query".equals(action) && group != null)
+	else if ("query".equals(action) && course != null)
 	{
 %>
 <div class = "page-header">
-<h1>Check-in listing: <%=group %></h1>
+<h1>Check-in listing: <%=course %></h1>
 </div>
 
 <table class="table">
@@ -52,7 +52,7 @@
 </thead>
 <tbody>
 <%
-	for (Checkin checkin : DataStore.getDevices(group).values())
+	for (Checkin checkin : DataStore.getDevices(course).values())
 	{
         %>
         	<tr>
@@ -67,7 +67,7 @@
 </tbody>
 </table>
 <p>
-<a class="btn btn-sm btn-default" href="index.jsp?group=<%=group %>&action=reset">RESET CHECKINS</a>
+<a class="btn btn-sm btn-default" href="index.jsp?course=<%=course %>&action=reset">RESET CHECKINS</a>
 <a class="btn btn-sm btn-default" href="index.jsp">HOME</a>
 
 </p>
@@ -83,10 +83,10 @@
 <p>
 <ul>
 <% 
-	for (String g : DataStore.getGroups())
+	for (String g : DataStore.getCourses())
 	{
 	%>
-		<li><a href="index.jsp?action=query&group=<%=g%>"><%=g %></a></li>
+		<li><a href="index.jsp?action=query&course=<%=g%>"><%=g %></a></li>
 	<%
 	}
 %>

@@ -6,13 +6,13 @@ import java.util.Set;
 public class DataStore {
 	private static HashMap<String, HashMap<String, Checkin>> courses = null;
 
-	public static void remove(String group, String uid)
+	public static void remove(String course, String uid)
 			throws Exception
 	{
 		if (courses == null)
 			init();
 		
-		HashMap<String, Checkin> devices = courses.get(group);
+		HashMap<String, Checkin> devices = courses.get(course);
 		
 		if (devices == null)
 		{
@@ -22,13 +22,13 @@ public class DataStore {
 		devices.remove(uid);
 	}	
 	
-	public static boolean query(String group, String uid)
+	public static boolean query(String course, String uid)
 		throws Exception
 	{
 		if (courses == null)
 			init();
 		
-		HashMap<String, Checkin> devices = courses.get(group);
+		HashMap<String, Checkin> devices = courses.get(course);
 		
 		if (devices == null)
 		{
@@ -38,13 +38,13 @@ public class DataStore {
 		return devices.containsKey(uid);
 	}
 	
-	public static void checkin(String group, Checkin checkin)
+	public static void checkin(String course, Checkin checkin)
 			throws Exception
 	{
 		if (courses == null)
 			init();
 		
-		HashMap<String,Checkin> devices = courses.get(group);
+		HashMap<String,Checkin> devices = courses.get(course);
 		
 		if (devices == null)
 		{
@@ -61,30 +61,30 @@ public class DataStore {
 		courses.put(course, new HashMap<String, Checkin>());
 	}
 	
-	public static String getKey(String group, String uid) {
+	public static String getKey(String course, String uid) {
 		if (courses == null)
 			init();
 		
-		return courses.get(group).get(uid).getKey();
+		return courses.get(course).get(uid).getKey();
 	}
 	
-	public static HashMap<String,Checkin> getDevices(String group)
+	public static HashMap<String,Checkin> getDevices(String course)
 	{
 		if (courses == null)
 			init();
 		
-		return courses.get(group);
+		return courses.get(course);
 	}
 	
-	public static String getDeviceList(String group)
+	public static String getDeviceList(String course)
 	{
 		if (courses == null)
 			init();
 		
-		return courses.get(group).keySet().toString();
+		return courses.get(course).keySet().toString();
 	}
 	
-	public static Set<String> getGroups()
+	public static Set<String> getCourses()
 	{
 		if (courses == null)
 			init();
@@ -92,10 +92,10 @@ public class DataStore {
 		return courses.keySet();
 	}
 	
-	public static void reset(String group)
+	public static void reset(String course)
 	{
-		courses.remove(group);
-		courses.put(group, new HashMap<String, Checkin>());
+		courses.remove(course);
+		courses.put(course, new HashMap<String, Checkin>());
 	}
 	
 	private static void init()

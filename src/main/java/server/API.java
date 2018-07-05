@@ -24,7 +24,7 @@ public class API extends HttpServlet {
 		String command = request.getParameter("command");
 		PrintWriter output = response.getWriter();
 		
-		String group = request.getParameter("group");
+		String course = request.getParameter("course");
 		String uid = request.getParameter("uid");
 		
 		APIResponse apiResponse = new APIResponse();
@@ -35,11 +35,6 @@ public class API extends HttpServlet {
 			apiResponse.addResponse("Command is a mandatory parameter.", "ERROR");
 		}
 		
-//		if (group == null)
-//		{
-//			apiResponse.addResponse("Group is a mandatory parameter.", "ERROR");
-//		}
-		
 		// Execute command
 		if (!apiResponse.hasError())
 		{
@@ -47,7 +42,7 @@ public class API extends HttpServlet {
 			{
 				try
 				{
-					if (DataStore.query(group, uid))
+					if (DataStore.query(course, uid))
 					{
 						apiResponse.addResponse("Device found in checkin list.", "ERROR");
 					}
@@ -61,13 +56,26 @@ public class API extends HttpServlet {
 					apiResponse.addResponse("Unable to access group data.", "ERROR");
 				}
 			}
+			else if ("addCourse".equals(command))
+			{
+				String newCourse = request.getParameter("course");
+				try
+				{
+					DataStore.addCourse(newCourse);
+					apiResponse.addResponse("Course added successfully.", "SUCCESS");
+				}
+				catch (Exception e)
+				{
+					apiResponse.addResponse("Unable to add new course.", "ERROR");
+				}				
+			}
 			else if ("checkin".equals(command))
 			{
 				String key = request.getParameter("key");
 				try
 				{
 					Checkin checkin = new Checkin(uid, key);
-					DataStore.checkin(group, checkin);
+					DataStore.checkin(course, checkin);
 					apiResponse.addResponse("Check in successful.", "SUCCESS");
 				}
 				catch (Exception e)
@@ -80,9 +88,9 @@ public class API extends HttpServlet {
 				try
 				{
 					if(uid != null) {
-						apiResponse.addResponse(DataStore.getKey(group, uid), "SUCCESS");
+						apiResponse.addResponse(DataStore.getKey(course, uid), "SUCCESS");
 					} else {
-						apiResponse.addResponse(DataStore.getDeviceList(group), "SUCCESS");
+						apiResponse.addResponse(DataStore.getDeviceList(course), "SUCCESS");
 					}
 				}
 				catch (Exception e)
@@ -94,7 +102,7 @@ public class API extends HttpServlet {
 			{
 				try
 				{
-					apiResponse.addResponse(DataStore.getGroups().toString(), "SUCCESS");
+					apiResponse.addResponse(DataStore.getCourses().toString(), "SUCCESS");
 				}
 				catch (Exception e)
 				{
@@ -107,14 +115,14 @@ public class API extends HttpServlet {
 				{
 					if ("*".equals(uid))
 					{
-						DataStore.reset(group);
+						DataStore.reset(course);
 						apiResponse.addResponse("The list has been cleared", "SUCCESS");
 					}
 					else
 					{
-						if (DataStore.query(group, uid))
+						if (DataStore.query(course, uid))
 						{
-							DataStore.remove(group, uid);
+							DataStore.remove(course, uid);
 							apiResponse.addResponse("UID removed from check-in list", "SUCCESS");
 						}
 						else
