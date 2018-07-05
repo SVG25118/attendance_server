@@ -74,8 +74,12 @@ public class API extends HttpServlet {
 				String tempCourse = request.getParameter("course");
 				try
 				{
-					DataStore.removeCourse(tempCourse);
-					apiResponse.addResponse("Course removed successfully.", "SUCCESS");
+					boolean result = DataStore.removeCourse(tempCourse);
+					if(result) {
+						apiResponse.addResponse("Course removed successfully.", "SUCCESS");
+					} else {
+						apiResponse.addResponse("Unable to remove course.", "FAILURE");
+					}					
 				}
 				catch (Exception e)
 				{
@@ -111,7 +115,7 @@ public class API extends HttpServlet {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
 			}
-			else if ("exportGroups".equals(command))
+			else if ("exportCourses".equals(command))
 			{
 				try
 				{

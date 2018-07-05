@@ -61,9 +61,14 @@ public class DataStore {
 		courses.put(course, new HashMap<String, Checkin>());
 	}
 	
-	public static void removeCourse(String course) throws Exception {
-		if (courses != null)
-			courses.remove(course);		
+	public static boolean removeCourse(String course) throws Exception {
+		if ((courses != null)&&(courses.containsKey(course))) {
+			courses.remove(course);
+			return true;
+		} else {
+			return false;
+		}
+					
 	}
 	
 	public static String getKey(String course, String uid) {
