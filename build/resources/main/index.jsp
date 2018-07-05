@@ -52,7 +52,7 @@
 </thead>
 <tbody>
 <%
-	for (Checkin checkin : DataStore.getDevices(course).values())
+	for (Checkin checkin : DataStore.getDevices(course).getStudents())
 	{
         %>
         	<tr>
