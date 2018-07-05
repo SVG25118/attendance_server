@@ -1,10 +1,12 @@
 package server;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class DataStore {
-	private static HashMap<String, HashMap<String, Checkin>> courses = null;
+//	private static HashMap<String, HashMap<String, Checkin>> courses = null;
+	private static HashMap<String, Course> courses = null;
 
 	public static void remove(String course, String uid)
 			throws Exception
@@ -12,14 +14,14 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		HashMap<String, Checkin> devices = courses.get(course);
+		List<Checkin> students = courses.get(course).getStudents();
 		
-		if (devices == null)
+		if (students == null)
 		{
 			throw new Exception("Course not found.");
 		}
 		
-		devices.remove(uid);
+		students.remove(uid);
 	}	
 	
 	public static boolean query(String course, String uid)
@@ -28,14 +30,14 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		HashMap<String, Checkin> devices = courses.get(course);
+		List<Checkin> students = courses.get(course).getStudents();
 		
-		if (devices == null)
+		if (students == null)
 		{
 			throw new Exception("Course not found.");
 		}
 		
-		return devices.containsKey(uid);
+		return students.contains(uid);
 	}
 	
 	public static void checkin(String course, Checkin checkin)
@@ -44,21 +46,20 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		HashMap<String,Checkin> devices = courses.get(course);
+		List<Checkin> students = courses.get(course).getStudents();
 		
-		if (devices == null)
-		{
+		if (students == null) {
 			throw new Exception("Course not found.");
 		}
 		
-		devices.put(checkin.getUid(), checkin);
+		students.add(checkin);
 	}
 	
 	public static void addCourse(String course) throws Exception {
 		if (courses == null)
 			init();
 		
-		courses.put(course, new HashMap<String, Checkin>());
+		courses.put(course, new Course(course));
 	}
 	
 	public static boolean removeCourse(String course) throws Exception {
@@ -75,10 +76,11 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		return courses.get(course).get(uid).getKey();
+		return courses.get(course).getStudents().get(courses.get(course).getStudents().indexOf(uid)).getKey();
+//		return courses.get(course).get(uid).getKey();
 	}
 	
-	public static HashMap<String,Checkin> getDevices(String course)
+	public static Course getDevices(String course)
 	{
 		if (courses == null)
 			init();
@@ -91,7 +93,8 @@ public class DataStore {
 		if (courses == null)
 			init();
 		
-		return courses.get(course).keySet().toString();
+		return courses.get(course).getStudents().toString();
+//		return courses.get(course).keySet().toString();
 	}
 	
 	public static Set<String> getCourses()
@@ -105,13 +108,13 @@ public class DataStore {
 	public static void reset(String course)
 	{
 		courses.remove(course);
-		courses.put(course, new HashMap<String, Checkin>());
+		courses.put(course, new Course(course));
 	}
 	
 	private static void init()
 	{
-		courses = new HashMap<String, HashMap<String, Checkin>>();
-		courses.put("TEST1234", new HashMap<String, Checkin>());
-		courses.put("TEST2345", new HashMap<String, Checkin>());
+		courses = new HashMap<String, Course>();
+		courses.put("TEST1234", new Course("TEST1234"));
+		courses.put("TEST2345", new Course("TEST2345"));
 	}
 }
