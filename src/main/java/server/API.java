@@ -32,7 +32,7 @@ public class API extends HttpServlet {
 		// Pre-validation of parameters
 		if (command == null)
 		{
-			apiResponse.addResponse("Command is a mandatory parameter.", "ERROR");
+			apiResponse.addResponse("Command is a mandatory parameter.", "FAILURE");
 		}
 		
 		// Execute command
@@ -44,7 +44,7 @@ public class API extends HttpServlet {
 				{
 					if (DataStore.query(course, uid))
 					{
-						apiResponse.addResponse("Device found in checkin list.", "ERROR");
+						apiResponse.addResponse("Device found in checkin list.", "FAILURE");
 					}
 					else
 					{
@@ -53,20 +53,33 @@ public class API extends HttpServlet {
 				}
 				catch (Exception e)
 				{
-					apiResponse.addResponse("Unable to access group data.", "ERROR");
+					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}
 			}
 			else if ("addCourse".equals(command))
 			{
-				String newCourse = request.getParameter("course");
+				String tempCourse = request.getParameter("course");
 				try
 				{
-					DataStore.addCourse(newCourse);
+					DataStore.addCourse(tempCourse);
 					apiResponse.addResponse("Course added successfully.", "SUCCESS");
 				}
 				catch (Exception e)
 				{
-					apiResponse.addResponse("Unable to add new course.", "ERROR");
+					apiResponse.addResponse("Unable to add new course.", "FAILURE");
+				}				
+			}
+			else if ("removeCourse".equals(command))
+			{
+				String tempCourse = request.getParameter("course");
+				try
+				{
+					DataStore.removeCourse(tempCourse);
+					apiResponse.addResponse("Course removed successfully.", "SUCCESS");
+				}
+				catch (Exception e)
+				{
+					apiResponse.addResponse("Unable to remove course.", "FAILURE");
 				}				
 			}
 			else if ("checkin".equals(command))
@@ -80,7 +93,7 @@ public class API extends HttpServlet {
 				}
 				catch (Exception e)
 				{
-					apiResponse.addResponse("Unable to access group data.", "ERROR");
+					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
 			}
 			else if ("export".equals(command))
@@ -95,7 +108,7 @@ public class API extends HttpServlet {
 				}
 				catch (Exception e)
 				{
-					apiResponse.addResponse("Unable to access group data.", "ERROR");
+					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
 			}
 			else if ("exportGroups".equals(command))
@@ -106,7 +119,7 @@ public class API extends HttpServlet {
 				}
 				catch (Exception e)
 				{
-					apiResponse.addResponse("Unable to access group data.", "ERROR");
+					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
 			}
 			else if ("remove".equals(command))
@@ -127,18 +140,18 @@ public class API extends HttpServlet {
 						}
 						else
 						{
-							apiResponse.addResponse("UID not found in list", "ERROR");
+							apiResponse.addResponse("UID not found in list", "FAILURE");
 						}
 					}
 				}
 				catch (Exception e)
 				{
-					apiResponse.addResponse("Unable to access group data.", "ERROR");
+					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
 			}
 			else
 			{
-				apiResponse.addResponse("Unknown command provided: " + command + ".", "ERROR");
+				apiResponse.addResponse("Unknown command provided: " + command + ".", "FAILURE");
 			}
 		}
 		
@@ -178,7 +191,7 @@ public class API extends HttpServlet {
 		
 		public boolean hasError()
 		{
-			return ("ERROR".equals(code));
+			return ("FAILURE".equals(code));
 		}
 		
 		public String toJSON()
