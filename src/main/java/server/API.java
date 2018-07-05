@@ -90,6 +90,17 @@ public class API extends HttpServlet {
 					apiResponse.addResponse("Unable to access group data.", "ERROR");
 				}				
 			}
+			else if ("exportGroups".equals(command))
+			{
+				try
+				{
+					apiResponse.addResponse(DataStore.getGroups().toString(), "SUCCESS");
+				}
+				catch (Exception e)
+				{
+					apiResponse.addResponse("Unable to access group data.", "ERROR");
+				}				
+			}
 			else if ("remove".equals(command))
 			{
 				try
