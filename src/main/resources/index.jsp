@@ -92,6 +92,7 @@
 			&emsp;<%=c.getValue().getLocation()%><br />
 			&emsp;<%=c.getValue().getTime().getTime()%><br />
 			&emsp;<%=c.getValue().getDescription()%><br />
+			&nbsp;
 		</li>
 	<%
 	}
