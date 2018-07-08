@@ -72,6 +72,13 @@ public class DataStore {
 		courses.put(course, new Course(course));
 	}
 	
+	public static void addCourse(String course, String loc, String desc) throws Exception {
+		if (courses == null)
+			init();
+		
+		courses.put(course, new Course(course,loc,desc));
+	}
+	
 	public static boolean removeCourse(String course) throws Exception {
 		if ((courses != null)&&(courses.containsKey(course))) {
 			courses.remove(course);

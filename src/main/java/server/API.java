@@ -26,135 +26,94 @@ public class API extends HttpServlet {
 		
 		String course = request.getParameter("course");
 		String uid = request.getParameter("uid");
+		String loc = request.getParameter("loc");
+		String desc = request.getParameter("desc");
 		
 		APIResponse apiResponse = new APIResponse();
 		
 		// Pre-validation of parameters
-		if (command == null)
-		{
+		if (command == null) {
 			apiResponse.addResponse("Command is a mandatory parameter.", "FAILURE");
 		}
 		
 		// Execute command
-		if (!apiResponse.hasError())
-		{
-			if ("query".equals(command))
-			{
-				try
-				{
-					if (DataStore.query(course, uid))
-					{
+		if (!apiResponse.hasError()) {
+			if ("query".equals(command)) {
+				try	{
+					if (DataStore.query(course, uid)) {
 						apiResponse.addResponse("Device found in checkin list.", "FAILURE");
-					}
-					else
-					{
+					} else {
 						apiResponse.addResponse("Device not found in checkin list.", "SUCCESS");
 					}
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}
-			}
-			else if ("addCourse".equals(command))
-			{
+			} else if ("addCourse".equals(command)) {
 				String tempCourse = request.getParameter("course");
-				try
-				{
-					DataStore.addCourse(tempCourse);
+				try {
+					if((loc==null)||(desc==null)) {						
+						DataStore.addCourse(tempCourse);
+					} else {						
+						DataStore.addCourse(tempCourse,loc,desc);
+					}
 					apiResponse.addResponse("Course added successfully.", "SUCCESS");
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					apiResponse.addResponse("Unable to add new course.", "FAILURE");
 				}				
-			}
-			else if ("removeCourse".equals(command))
-			{
+			} else if ("removeCourse".equals(command)) {
 				String tempCourse = request.getParameter("course");
-				try
-				{
+				try {
 					boolean result = DataStore.removeCourse(tempCourse);
 					if(result) {
 						apiResponse.addResponse("Course removed successfully.", "SUCCESS");
 					} else {
 						apiResponse.addResponse("Unable to remove course.", "FAILURE");
 					}					
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					apiResponse.addResponse("Unable to remove course.", "FAILURE");
 				}				
-			}
-			else if ("checkin".equals(command))
-			{
+			} else if ("checkin".equals(command)) {
 				String key = request.getParameter("key");
-				try
-				{
+				try	{
 					Checkin checkin = new Checkin(new Student(uid), key);
 					DataStore.checkin(course, checkin);
 					apiResponse.addResponse("Check in successful.", "SUCCESS");
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
-			}
-			else if ("export".equals(command))
-			{
-				try
-				{
+			} else if ("export".equals(command)) {
+				try {
 					if(uid != null) {
 						apiResponse.addResponse(DataStore.getKey(course, uid), "SUCCESS");
 					} else {
 						apiResponse.addResponse(DataStore.getDeviceList(course), "SUCCESS");
 					}
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
-			}
-			else if ("exportCourses".equals(command))
-			{
-				try
-				{
+			} else if ("exportCourses".equals(command)) {
+				try {
 					apiResponse.addResponse(DataStore.getCourses().toString(), "SUCCESS");
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
-			}
-			else if ("remove".equals(command))
-			{
-				try
-				{
-					if ("*".equals(uid))
-					{
+			} else if ("remove".equals(command)) {
+				try {
+					if ("*".equals(uid)) {
 						DataStore.reset(course);
 						apiResponse.addResponse("The list has been cleared", "SUCCESS");
-					}
-					else
-					{
-						if (DataStore.query(course, uid))
-						{
+					} else {
+						if (DataStore.query(course, uid)) {
 							DataStore.remove(course, uid);
 							apiResponse.addResponse("UID removed from check-in list", "SUCCESS");
-						}
-						else
-						{
+						} else {
 							apiResponse.addResponse("UID not found in list", "FAILURE");
 						}
 					}
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
-			}
-			else
-			{
+			} else {
 				apiResponse.addResponse("Unknown command provided: " + command + ".", "FAILURE");
 			}
 		}
@@ -164,8 +123,7 @@ public class API extends HttpServlet {
 		log(request, apiResponse);
 	}
 	
-	private void log(HttpServletRequest request, APIResponse response)
-	{
+	private void log(HttpServletRequest request, APIResponse response) {
 		String logString = "";
 		
 		logString = request.getRemoteAddr();
@@ -179,27 +137,21 @@ public class API extends HttpServlet {
 		String response = null;
 		String code = "";
 		
-		public void addResponse(String response, String code)
-		{
+		public void addResponse(String response, String code) {
 			this.code = code;
 			
-			if (this.response == null)
-			{
+			if (this.response == null) {
 				this.response = response;
-			}
-			else
-			{
+			} else {
 				this.response += " " + response;
 			}
 		}
 		
-		public boolean hasError()
-		{
+		public boolean hasError() {
 			return ("FAILURE".equals(code));
 		}
 		
-		public String toJSON()
-		{
+		public String toJSON() {
 			String json = "{\n";
 			json += "   \"apiResponse\": {\n";
 			json += "      \"code\": \"" + code + "\"\n";
@@ -210,5 +162,4 @@ public class API extends HttpServlet {
 			return json;
 		}
 	}
-
 }
