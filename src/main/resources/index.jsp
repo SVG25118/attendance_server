@@ -25,7 +25,7 @@
 	String action = request.getParameter("action");
 	
 	// Validate that the group parameter is sane
-	if (!DataStore.getCourses().contains(course))
+	if (!DataStore.containsCourse(course))
 	{
 		// Bad group provided, so pretend none was provided.
 		course = null;	
@@ -87,10 +87,12 @@
 	for (Map.Entry<String,Course> c : DataStore.getCourses())
 	{
 	%>
-		<li><a href="index.jsp?action=query&course=<%=c.getValue().getName()%>"><%=c.getValue().getName()%></a><br />
-		&emsp;<%=c.getValue().getLocation()%><br />
-		&emsp;<%=c.getValue().getTime().getTime()%><br />
-		&emsp;<%=c.getValue().getDescription()%></li>
+		<li>
+			<a href="index.jsp?action=query&course=<%=c.getValue().getName()%>"><%=c.getValue().getName()%></a><br />
+			&emsp;<%=c.getValue().getLocation()%><br />
+			&emsp;<%=c.getValue().getTime().getTime()%><br />
+			&emsp;<%=c.getValue().getDescription()%><br />
+		</li>
 	<%
 	}
 %>

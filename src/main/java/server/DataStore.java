@@ -110,6 +110,14 @@ public class DataStore {
 		return courses.entrySet();
 	}
 	
+	public static boolean containsCourse(String course) {
+		if (courses == null)
+			init();
+		
+		if(courses.containsKey(course)) return true;
+		return false;
+	}
+	
 	public static void reset(String course) {
 		courses.remove(course);
 		courses.put(course, new Course(course));
