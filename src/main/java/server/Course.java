@@ -10,6 +10,7 @@ public class Course {
 	private String location = null;
 	private Calendar time = null;
 	private String description = null;
+	private List<String> admins;
 	private List<String> questions;
 	private HashMap<String,Checkin> students;
 	
@@ -19,6 +20,7 @@ public class Course {
 		this.location = "UoN";
 		this.time = Calendar.getInstance();
 		this.description = "Default description";
+		this.admins = new ArrayList<String>();
 		this.questions = new ArrayList<String>();
 		this.students = new HashMap<String,Checkin>();
 	}
@@ -28,6 +30,7 @@ public class Course {
 		this.location = location;
 		this.time = Calendar.getInstance();
 		this.description = description;
+		this.admins = new ArrayList<String>();
 		this.questions = new ArrayList<String>();
 		this.students = new HashMap<String,Checkin>();
 	}
@@ -54,6 +57,15 @@ public class Course {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public List<String> getAdmins() {
+		return admins;
+	}
+	public void setAdmins(List<String> admins) {
+		this.admins = admins;
+	}
+	public void addAdmin(String admin) {
+		this.admins.add(admin);
 	}
 	public List<String> getQuestions() {
 		return questions;

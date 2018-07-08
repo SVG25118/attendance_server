@@ -91,7 +91,7 @@ public class API extends HttpServlet {
 				String key = request.getParameter("key");
 				try
 				{
-					Checkin checkin = new Checkin(uid, key);
+					Checkin checkin = new Checkin(new Student(uid), key);
 					DataStore.checkin(course, checkin);
 					apiResponse.addResponse("Check in successful.", "SUCCESS");
 				}

@@ -3,29 +3,25 @@ package server;
 import java.util.Calendar;
 
 public class Checkin {
-	private String uid = null;
+	private Student student = null;
 	private String key = null;
 	private Calendar time = null;
 	
-	public Checkin(String uid, String key)
-	{
-		this.uid = uid;
+	public Checkin(Student student, String key) {
+		this.student = student;
 		this.key = key;
 		this.time = Calendar.getInstance();
 	}
 	
-	public String getUid()
-	{
-		return uid;
+	public String getStudentID() {
+		return student.getStudentID();
 	}
 	
-	public String getKey()
-	{
+	public String getKey() {
 		return key;
 	}
 	
-	public Calendar getTime()
-	{
+	public Calendar getTime() {
 		return time;
 	}
 }
