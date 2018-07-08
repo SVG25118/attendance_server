@@ -11,7 +11,7 @@ public class Course {
 	private Calendar time = null;
 	private String description = null;
 	private List<String> admins;
-	private List<String> questions;
+	private HashMap<String,List<String>> questions;
 	private HashMap<String,Checkin> students;
 	
 	public Course(String name) {
@@ -21,7 +21,7 @@ public class Course {
 		this.time = Calendar.getInstance();
 		this.description = "Default description";
 		this.admins = new ArrayList<String>();
-		this.questions = new ArrayList<String>();
+		this.questions = new HashMap<String,List<String>>();
 		this.students = new HashMap<String,Checkin>();
 	}
 	public Course(String name, String location, String description) {
@@ -31,7 +31,7 @@ public class Course {
 		this.time = Calendar.getInstance();
 		this.description = description;
 		this.admins = new ArrayList<String>();
-		this.questions = new ArrayList<String>();
+		this.questions = new HashMap<String,List<String>>();
 		this.students = new HashMap<String,Checkin>();
 	}
 	public String getName() {
@@ -67,15 +67,22 @@ public class Course {
 	public void addAdmin(String admin) {
 		this.admins.add(admin);
 	}
-	public List<String> getQuestions() {
+	
+	public HashMap<String,List<String>> getQuestions() {
 		return questions;
 	}
-	public void setQuestions(List<String> questions) {
+	public void setQuestions(HashMap<String,List<String>> questions) {
 		this.questions = questions;
 	}
 	public void addQuestion(String question) {
-		this.questions.add(question);
+		this.questions.put(question,new ArrayList<String>());
 	}
+	public void addAnswer(String question,String answer) {
+		if(this.questions.containsKey(question)) {
+			questions.get(question).add(answer);
+		}
+	}
+	
 	public HashMap<String,Checkin> getStudents() {
 		return students;
 	}

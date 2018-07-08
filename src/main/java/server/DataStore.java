@@ -85,8 +85,18 @@ public class DataStore {
 			return true;
 		} else {
 			return false;
-		}
-					
+		}					
+	}
+	
+	public static void addQuestion(String course,String question) {
+		if ((courses != null)&&(courses.containsKey(course))) {
+			courses.get(course).addQuestion(question);
+		}		
+	}
+	public static void addAnswer(String course,String question,String answer) {
+		if ((courses != null)&&(courses.containsKey(course))) {
+			courses.get(course).addAnswer(question,answer);
+		}		
 	}
 	
 	public static String getKey(String course, String uid) {
