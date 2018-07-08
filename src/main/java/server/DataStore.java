@@ -2,6 +2,7 @@ package server;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class DataStore {
@@ -102,11 +103,11 @@ public class DataStore {
 		return courses.get(course).getStudents().toString();
 	}
 	
-	public static Set<String> getCourses() {
+	public static Set<Entry<String,Course>> getCourses() {
 		if (courses == null)
 			init();
 		
-		return courses.keySet();
+		return courses.entrySet();
 	}
 	
 	public static void reset(String course) {

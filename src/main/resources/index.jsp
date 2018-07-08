@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="server.*" %>  
+<%@ page import="server.*" %>
+<%@ page import="java.util.Map" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -52,11 +53,11 @@
 </thead>
 <tbody>
 <%
-	for (Student checkin : DataStore.getDevices(course).getStudents().values())
+	for (Checkin checkin : DataStore.getDevices(course).getStudents().values())
 	{
-%>
+		%>
         	<tr>
-        	<td><%=checkin.getUid() %></td>
+        	<td><%=checkin.getStudentID() %></td>
         	<td><%=checkin.getKey() %></td>
         	<td><%=checkin.getTime().getTime() %></td>
         	</tr>
@@ -83,10 +84,11 @@
 <p>
 <ul>
 <% 
-	for (String g : DataStore.getCourses())
+	for (Map.Entry<String,Course> c : DataStore.getCourses())
 	{
 	%>
-		<li><a href="index.jsp?action=query&course=<%=g%>"><%=g %></a></li>
+		<li><a href="index.jsp?action=query&course=<%=c%>"><%=c%></a></li>
+		<li><%=c.getValue().getLocation()%><%=c.getValue().getTime()%><%=c.getValue().getDescription()%></li>
 	<%
 	}
 %>
