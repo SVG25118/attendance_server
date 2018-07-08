@@ -87,8 +87,10 @@
 	for (Map.Entry<String,Course> c : DataStore.getCourses())
 	{
 	%>
-		<li><a href="index.jsp?action=query&course=<%=c.getValue().getName()%>"><%=c.getValue().getName()%></a></li>
-		<li><%=c.getValue().getLocation()%><br /><%=c.getValue().getTime().getTime()%><br /><%=c.getValue().getDescription()%></li>
+		<li><a href="index.jsp?action=query&course=<%=c.getValue().getName()%>"><%=c.getValue().getName()%></a><br />
+		&emsp;<%=c.getValue().getLocation()%><br />
+		&emsp;<%=c.getValue().getTime().getTime()%><br />
+		&emsp;<%=c.getValue().getDescription()%></li>
 	<%
 	}
 %>
