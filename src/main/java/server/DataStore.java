@@ -134,7 +134,7 @@ public class DataStore {
 		
 		List<String> courseInfo = new ArrayList<String>();
 		courseInfo.add(courses.get(course).getLocation());
-		courseInfo.add(courses.get(course).getTime().toString());
+		courseInfo.add(courses.get(course).getTime().getTime().toString());
 		
 		return courseInfo;
 	}
