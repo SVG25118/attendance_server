@@ -2,7 +2,10 @@ package server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -110,7 +113,11 @@ public class API extends HttpServlet {
 				}				
 			} else if ("exportCourses".equals(command)) {
 				try {
-					apiResponse.addResponse(DataStore.getCourses().iterator().toString(), "SUCCESS");
+					List<String> courseList = new ArrayList<String>();
+					for (Map.Entry<String,Course> c : DataStore.getCourses()) {
+						courseList.add(c.getValue().getName());
+					}
+					apiResponse.addResponse(courseList.toString(), "SUCCESS");
 				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
