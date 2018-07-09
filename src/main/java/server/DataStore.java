@@ -1,5 +1,6 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -125,6 +126,17 @@ public class DataStore {
 			init();
 		
 		return courses.entrySet();
+	}
+	
+	public static List<String> getCourseInfo(String course) {
+		if (courses == null)
+			init();
+		
+		List<String> courseInfo = new ArrayList<String>();
+		courseInfo.add(courses.get(course).getLocation());
+		courseInfo.add(courses.get(course).getTime().toString());
+		
+		return courseInfo;
 	}
 	
 	public static boolean containsCourse(String course) {

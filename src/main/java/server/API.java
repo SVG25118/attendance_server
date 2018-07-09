@@ -121,6 +121,18 @@ public class API extends HttpServlet {
 				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
+			} else if ("exportCourseInfo".equals(command)) {
+				try {
+					if(course!=null) {
+						List<String> courseInfoList = DataStore.getCourseInfo(course);
+						
+						apiResponse.addResponse(courseInfoList.toString(), "SUCCESS");
+					} else {
+						apiResponse.addResponse("No course provided.", "FAILURE");					
+					}
+				} catch (Exception e) {
+					apiResponse.addResponse("Unable to access course data.", "FAILURE");
+				}				
 			} else if ("remove".equals(command)) {
 				try {
 					if ("*".equals(uid)) {
