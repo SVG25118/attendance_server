@@ -84,8 +84,8 @@ public class API extends HttpServlet {
 				String question = request.getParameter("question");
 				String answer = request.getParameter("answer");
 				try	{
-					DataStore.addAnswer(course,question,answer);
-					apiResponse.addResponse("Question added successfully.", "SUCCESS");
+					DataStore.addAnswer(course,uid,question,answer);
+					apiResponse.addResponse("Answer added successfully.", "SUCCESS");
 				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				

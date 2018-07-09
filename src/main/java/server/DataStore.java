@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class DataStore {
-	private static HashMap<String, Course> courses = null;
+	private static HashMap<String,Course> courses = null;
 	private static HashMap<String,Student> students;
 
 	public static void remove(String course, String uid) throws Exception {
@@ -93,9 +93,9 @@ public class DataStore {
 			courses.get(course).addQuestion(question);
 		}		
 	}
-	public static void addAnswer(String course,String question,String answer) {
+	public static void addAnswer(String course,String uid,String question,String answer) {
 		if ((courses != null)&&(courses.containsKey(course))) {
-			courses.get(course).addAnswer(question,answer);
+			courses.get(course).addAnswer(question,uid,answer);
 		}		
 	}
 	
