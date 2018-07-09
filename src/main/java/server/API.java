@@ -110,7 +110,7 @@ public class API extends HttpServlet {
 				}				
 			} else if ("exportCourses".equals(command)) {
 				try {
-					apiResponse.addResponse(DataStore.getCourses().toString(), "SUCCESS");
+					apiResponse.addResponse(DataStore.getCourses().iterator().toString(), "SUCCESS");
 				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access group data.", "FAILURE");
 				}				
