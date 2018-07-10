@@ -79,7 +79,7 @@
 	{
 %>
 <div class = "page-header">
-<h1>Attendance Test Server</h1>
+<h1>Attendance Demo Server</h1>
 </div>
 <p>
 <ul>
