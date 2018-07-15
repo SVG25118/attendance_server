@@ -140,6 +140,13 @@ public class DataStore {
 		return courseInfo;
 	}
 	
+	public static HashMap<String,HashMap<String,String>> getCourseQuestions(String course) {
+		if (courses == null)
+			init();
+		
+		return courses.get(course).getQuestions();
+	}
+	
 	public static boolean containsCourse(String course) {
 		if (courses == null)
 			init();

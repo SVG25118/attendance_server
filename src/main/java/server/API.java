@@ -133,6 +133,16 @@ public class API extends HttpServlet {
 				} catch (Exception e) {
 					apiResponse.addResponse("Unable to access course data.", "FAILURE");
 				}				
+			} else if ("exportCourseQuestions".equals(command)) {
+				try {
+					if(course!=null) {						
+						apiResponse.addResponse(DataStore.getCourseQuestions(course).toString(), "SUCCESS");
+					} else {
+						apiResponse.addResponse("No course provided.", "FAILURE");					
+					}
+				} catch (Exception e) {
+					apiResponse.addResponse("Unable to access course data.", "FAILURE");
+				}				
 			} else if ("remove".equals(command)) {
 				try {
 					if ("*".equals(uid)) {
